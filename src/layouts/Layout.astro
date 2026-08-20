@@ -1,0 +1,30 @@
+---
+import '../styles/global.css';
+import { business } from '../data/business';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = `${business.shortName} | UAE Automotive Care`, description = 'Diagnostics, bodywork, paintless dent repair, and detailing from Vanguard International Automotive L.L.C.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#020617" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<a class="skip-link" href="#main-content">Skip to content</a>
+		<slot />
+	</body>
+</html>

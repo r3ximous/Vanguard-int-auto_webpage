@@ -1,0 +1,27 @@
+---
+import { business } from '../data/business';
+---
+
+<section id="top" class="hero-section">
+	<div class="hero-grid" aria-hidden="true"></div>
+	<div class="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:px-12 lg:py-32">
+		<div class="relative z-10">
+			<p class="eyebrow">Independent automotive care · UAE</p>
+			<h1 class="display-title mt-6 max-w-4xl">Keep the craft.<br /><span>Lose the worry.</span></h1>
+			<p class="hero-copy mt-8 max-w-2xl">Vanguard brings a careful eye to diagnostics, bodywork, paintless dent repair, and detailing. Straight answers, considered work, and a better handover.</p>
+			<div class="mt-10 flex flex-col gap-4 sm:flex-row">
+				<a class="button button--whatsapp" href={business.whatsappHref} target="_blank" rel="noreferrer">Start a WhatsApp chat <span aria-hidden="true">↗</span></a>
+				<a class="button button--ghost" href="#services">Explore services <span aria-hidden="true">↓</span></a>
+			</div>
+		</div>
+		<div class="hero-aside relative z-10">
+			<div class="hero-aside__line"></div>
+			<p class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">The Vanguard standard</p>
+			<p class="mt-5 text-2xl font-semibold leading-tight text-white">Your car is a daily decision. Let the care behind it be an easy one.</p>
+			<div class="mt-8 grid grid-cols-2 gap-6 border-t border-white/15 pt-6 text-sm text-slate-300">
+				<div><strong class="block text-2xl text-white">04</strong> core services</div>
+				<div><strong class="block text-2xl text-white">RAK</strong> UAE based</div>
+			</div>
+		</div>
+	</div>
+</section>

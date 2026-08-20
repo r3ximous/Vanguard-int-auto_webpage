@@ -1,0 +1,15 @@
+---
+import { services } from '../data/business';
+---
+
+<section id="services" class="section-band section-band--light">
+	<div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
+		<div class="section-intro grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+			<p class="eyebrow eyebrow--dark">What we do</p>
+			<div><h2 class="section-title text-slate-950">Good work begins<br /><em>with good listening.</em></h2><p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">Every vehicle arrives with a story. We take the time to understand it, then recommend the work that actually moves things forward.</p></div>
+		</div>
+		<div class="mt-16 grid gap-px overflow-hidden border border-slate-300 bg-slate-300 sm:grid-cols-2">
+			{services.map((service) => <article class="service-card bg-[#f3f0e8] p-7 sm:p-9"><span class="text-sm font-bold text-amber-700">{service.number}</span><h3 class="mt-16 text-2xl font-bold text-slate-950">{service.title}</h3><p class="mt-4 leading-7 text-slate-600">{service.description}</p></article>)}
+		</div>
+	</div>
+</section>
