@@ -1,7 +1,29 @@
 ---
-import { business } from '../data/business';
+import { business } from "../data/business";
 ---
 
 <section id="contact" class="section-band section-band--accent">
-	<div class="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12"><div><p class="eyebrow eyebrow--dark">Ready when you are</p><h2 class="section-title mt-5 max-w-2xl text-slate-950">Tell us what your car needs.</h2><p class="mt-5 max-w-xl text-lg leading-8 text-slate-800">Send a message for a straightforward conversation about the next sensible step.</p></div><div class="flex flex-col gap-3 sm:flex-row lg:flex-col"><a class="button button--dark" href={business.whatsappHref} target="_blank" rel="noreferrer">Chat on WhatsApp <span aria-hidden="true">↗</span></a><a class="button button--outline-dark" href={business.phoneHref}>Call {business.phoneDisplay}</a></div></div>
+    <div
+        class="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12"
+    >
+        <div>
+            <p class="eyebrow eyebrow--dark">Ready when you are</p><h2
+                class="section-title mt-5 max-w-2xl text-slate-950"
+            >
+                Tell us what your car needs.
+            </h2><p class="mt-5 max-w-xl text-lg leading-8 text-slate-800">
+                Send a message for a straightforward conversation about the next
+                sensible step.
+            </p>
+        </div><div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+            <a
+                class="button button--dark"
+                href={business.whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                >Chat on WhatsApp <span aria-hidden="true">↗</span></a
+            ><a class="button button--outline-dark" href={business.phoneHref}
+                >Call {business.phoneDisplay}</a>
+        </div>
+    </div>
 </section>
