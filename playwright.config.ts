@@ -27,7 +27,7 @@ export default defineConfig({
 	webServer: {
 		command: serverCommand,
 		url: baseURL,
-		reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI,
     timeout: 120_000,
 	},
 });
