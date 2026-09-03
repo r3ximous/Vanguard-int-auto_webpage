@@ -1,5 +1,5 @@
 ---
-import { services } from "../data/business";
+import { business, services } from "../data/business";
 ---
 
 <section id="services" class="section-band section-band--light" aria-labelledby="services-heading">
@@ -21,21 +21,54 @@ import { services } from "../data/business";
         >
             {
                 services.map((service, index) => (
-                    <article class="service-card bg-[#f3f0e8] p-7 sm:p-9" data-scroll-stagger={index}>
-                        <>
+                    <article class={`service-card service-card--${index + 1} bg-[#f3f0e8] p-7 sm:p-9`} data-scroll-stagger={index}>
+                        <details>
+                            <summary class="service-card__summary">
                             <span class="text-sm font-bold text-amber-700">
                                 {service.number}
                             </span>
                             <h3 class="mt-16 text-2xl font-bold text-slate-950">
                                 {service.title}
                             </h3>
-                            <p class="mt-4 leading-7 text-slate-600">
-                                {service.description}
-                            </p>
-                        </>
+                            </summary>
+                            <div class="service-card__content">
+                                <div>
+                                    <p class="mt-4 leading-7 text-slate-600">
+                                        {service.description}
+                                    </p>
+                                    <p class="service-card__detail mt-3 leading-7 text-slate-600">{service.detail}</p>
+                                    <a class="button button--outline-dark mt-6" href={`${business.contact.whatsapp.href}&service=${encodeURIComponent(service.title)}`} target="_blank" rel="noopener noreferrer">Ask about {service.title}<span aria-hidden="true">↗</span></a>
+                                </div>
+                            </div>
+                        </details>
                     </article>
                 ))
             }
         </div>
     </div>
 </section>
+
+<script>
+    const serviceDetails = document.querySelectorAll<HTMLDetailsElement>('.service-card details');
+    const collapseDuration = 220;
+
+    serviceDetails.forEach((details) => {
+        const summary = details.querySelector('summary');
+        if (!summary) return;
+
+        summary.addEventListener('click', (event) => {
+            if (!details.open) {
+                requestAnimationFrame(() => details.classList.add('is-open'));
+                return;
+            }
+
+            event.preventDefault();
+            details.classList.remove('is-open');
+            details.classList.add('is-closing');
+            window.setTimeout(() => {
+                details.open = false;
+                details.classList.remove('is-closing');
+            }, collapseDuration);
+        });
+    });
+</script>

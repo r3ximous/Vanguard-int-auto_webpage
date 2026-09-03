@@ -2,7 +2,7 @@
 import { business } from "../data/business";
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
     <div
         class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5 lg:px-12"
     >
@@ -11,18 +11,117 @@ import { business } from "../data/business";
             <span>{business.shortName}</span>
         </a>
         <nav
-            class="hidden items-center gap-8 text-sm font-semibold text-slate-300 md:flex"
+            class="site-nav"
             aria-label="Main navigation"
+            data-mobile-nav
         >
-            <a class="nav-link" href="#services">Services</a>
-            <a class="nav-link" href="#gallery">Gallery</a>
-            <a class="nav-link" href="#location">Location</a>
-            <a class="nav-link" href="#contact">Contact</a>
+            <a class="nav-link" href="#services" data-section-link="services">Services</a>
+            <a class="nav-link" href="#gallery" data-section-link="gallery">Gallery</a>
+            <a class="nav-link" href="#location" data-section-link="location">Location</a>
+            <a class="nav-link" href="#contact" data-section-link="contact">Contact</a>
         </nav>
+        <div class="site-header__actions">
+        <a class="mobile-header-action mobile-header-action--whatsapp" href={business.contact.whatsapp.href} target="_blank" rel="noopener noreferrer" aria-label="Request a vehicle assessment on WhatsApp (opens in a new tab)">WhatsApp</a>
+        <a class="mobile-header-action" href={business.contact.phone.href} aria-label={`Call ${business.shortName} at ${business.contact.phone.display}`}>Call</a>
         <a
-            class="button button--small button--outline"
+            class="button button--small button--outline header-call"
             href={business.contact.phone.href}
             aria-label={`Call ${business.shortName} at ${business.contact.phone.display}`}>Call now</a
         >
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+        </div>
     </div>
+    <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" data-mobile-navigation>
+        <div class="mobile-navigation__inner">
+            <a href="#services" data-section-link="services">Services</a>
+            <a href="#gallery" data-section-link="gallery">Gallery</a>
+            <a href="#location" data-section-link="location">Location</a>
+            <a href="#contact" data-section-link="contact">Contact</a>
+        </div>
+    </nav>
 </header>
+
+<script>
+    const header = document.querySelector('[data-site-header]');
+    const toggle = header?.querySelector('.menu-toggle');
+    const mobileNavigation = header?.querySelector('[data-mobile-navigation]');
+    const sectionLinks = header?.querySelectorAll('[data-section-link]');
+    const sections = [...(sectionLinks ?? [])]
+        .map((link) => document.getElementById(link.getAttribute('data-section-link') ?? ''))
+        .filter((section): section is HTMLElement => Boolean(section));
+
+    mobileNavigation?.setAttribute('aria-hidden', 'true');
+
+    const updateHeader = () => {
+        const scrollTop = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop);
+        header?.classList.toggle('is-condensed', scrollTop > 24);
+    };
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    document.addEventListener('scroll', updateHeader, { passive: true, capture: true });
+
+    const setActiveSection = (sectionId: string) => {
+        sectionLinks?.forEach((link) => {
+            if (link.getAttribute('data-section-link') === sectionId) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    };
+
+    document.addEventListener('click', (event) => {
+        const link = (event.target as HTMLElement).closest('[data-section-link]');
+        if (!link) return;
+        const sectionId = link.getAttribute('data-section-link') ?? '';
+        document.querySelector('[data-site-header]')?.classList.add('is-condensed');
+        sessionStorage.setItem('vanguard-active-section', sectionId);
+        setActiveSection(sectionId);
+    }, true);
+
+    const hashSection = window.location.hash.slice(1);
+    if (hashSection && sections.some((section) => section.id === hashSection)) {
+        header?.classList.add('is-condensed');
+        setActiveSection(hashSection);
+    }
+
+    document.addEventListener('astro:after-swap', () => {
+        const currentHeader = document.querySelector('[data-site-header]');
+        const currentSection = window.location.hash.slice(1) || sessionStorage.getItem('vanguard-active-section') || '';
+        if (!currentHeader || !currentSection) return;
+        currentHeader.classList.add('is-condensed');
+        currentHeader.querySelectorAll('[data-section-link]').forEach((link) => {
+            link.toggleAttribute('aria-current', link.getAttribute('data-section-link') === currentSection);
+        });
+    });
+
+    const sectionObserver = new IntersectionObserver(
+        (entries) => {
+            const visibleEntry = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visibleEntry) setActiveSection(visibleEntry.target.id);
+        },
+        { rootMargin: '-22% 0px -62% 0px', threshold: [0, 0.2, 0.5, 1] },
+    );
+    sections.forEach((section) => sectionObserver.observe(section));
+    setActiveSection(window.scrollY > 24 ? 'services' : 'top');
+
+    toggle?.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        mobileNavigation?.setAttribute('aria-hidden', String(isOpen));
+        mobileNavigation?.classList.toggle('is-open', !isOpen);
+    });
+
+    mobileNavigation?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+            toggle?.setAttribute('aria-expanded', 'false');
+            mobileNavigation.setAttribute('aria-hidden', 'true');
+            mobileNavigation.classList.remove('is-open');
+        });
+    });
+</script>

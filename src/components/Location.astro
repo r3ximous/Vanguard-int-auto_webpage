@@ -11,28 +11,28 @@ import { business } from "../data/business";
                 id="location-heading"
                 class="section-title mt-5 text-slate-950"
             >
-                A workshop<br /><em>in transition.</em>
+                Care that works<br /><em>around your day.</em>
             </h2><p class="mt-6 leading-7 text-slate-600">
-                Our garage is currently changing location. We are keeping the
-                details below visible for continuity, but please confirm the
-                current drop-off point with us before you travel.
+                Vanguard serves drivers across Ras Al Khaimah by appointment. Message us
+                before you travel and we will confirm the current drop-off point and the
+                best time for your vehicle.
             </p><a
                 class="button button--dark mt-8"
                 href={business.contact.whatsapp.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                >Confirm the current location <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span
+                >Confirm your appointment <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span
                 ></a>
         </div>
         <div class="location-panel">
             <div class="location-panel__pin" aria-hidden="true">+</div><p
                 class="eyebrow eyebrow--dark"
             >
-                Provisional details
+                Appointment details
             </p><address
                 class="mt-5 not-italic text-xl font-semibold leading-8 text-slate-950"
             >
-                {business.location.displayAddress}
+                {business.location.serviceArea}
             </address><dl
                 class="mt-8 grid gap-5 border-t border-slate-300 pt-6 text-sm sm:grid-cols-2"
             >
@@ -46,9 +46,9 @@ import { business } from "../data/business";
                     <dt
                         class="font-bold uppercase tracking-widest text-slate-500"
                     >
-                        Navigation
+                        Drop-off
                     </dt><dd class="mt-2 text-slate-800">
-                        Exact map pin coming soon
+                        Confirmed by WhatsApp before arrival
                     </dd>
                 </div>
             </dl>

@@ -1,27 +1,24 @@
 ---
-import { Image } from "astro:assets";
-import bodywork from "../assets/gallery/bodywork.svg";
-import detailing from "../assets/gallery/detailing.svg";
-import diagnostics from "../assets/gallery/diagnostics.svg";
+import { Image } from 'astro:assets';
 
 const galleryItems = [
     {
-        image: bodywork,
+        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=82",
         title: "Bodywork, with restraint",
-        label: "Temporary development image",
-        alt: "Stylized side profile of a car representing bodywork services",
+        label: "Licensed stock image",
+        alt: "Silver sports car viewed from the front",
     },
     {
-        image: detailing,
+        image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=82",
         title: "The finish matters",
-        label: "Temporary development image",
-        alt: "Abstract curved lines representing a polished vehicle finish",
+        label: "Licensed stock image",
+        alt: "Blue car parked outdoors",
     },
     {
-        image: diagnostics,
+        image: "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=82",
         title: "Look closer",
-        label: "Temporary development image",
-        alt: "Stylized diagnostic graph over a vehicle silhouette",
+        label: "Licensed stock image",
+        alt: "Vehicle detail photographed in a workshop setting",
     },
 ] as const;
 ---
@@ -51,11 +48,11 @@ const galleryItems = [
                             <Image
                                 src={item.image}
                                 alt={item.alt}
-                                width={800}
-                                height={600}
-                                format="svg"
+                                width="1200"
+                                height="800"
                                 loading="lazy"
                                 decoding="async"
+                                sizes="(min-width: 768px) 33vw, 100vw"
                                 class="aspect-4/3 w-full object-cover transition duration-700 hover:scale-105"
                             />
                         </div>

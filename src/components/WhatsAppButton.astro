@@ -2,6 +2,11 @@
 import { business } from "../data/business";
 ---
 
+
+<div class="mobile-contact-bar" aria-label="Contact Vanguard Auto">
+    <a class="mobile-contact-bar__action mobile-contact-bar__action--call" href={business.contact.phone.href}>Call now</a>
+    <a class="mobile-contact-bar__action mobile-contact-bar__action--whatsapp" href={business.contact.whatsapp.href} target="_blank" rel="noopener noreferrer" aria-label="Chat with Vanguard Auto on WhatsApp (opens in a new tab)">WhatsApp</a>
+</div>
 <a
     class="whatsapp-float"
     href={business.contact.whatsapp.href}

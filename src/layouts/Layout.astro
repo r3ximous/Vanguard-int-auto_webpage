@@ -3,8 +3,6 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { business } from '../data/business';
 import BackgroundCanvas from '../components/BackgroundCanvas.astro';
-import SmoothScroll from '../components/SmoothScroll.astro';
-import ScrollAnimations from '../components/ScrollAnimations.astro';
 
 interface Props {
 	title?: string;
@@ -57,7 +55,7 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<meta name="robots" content={robots} />
-		<meta name="theme-color" content="#020617" />
+		<meta name="theme-color" content="#f5f3ee" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -76,16 +74,9 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 		<script type="application/ld+json" is:inline set:html={localBusinessJson}></script>
 		<ClientRouter />
 	</head>
-	<body class="bg-black text-white overflow-x-hidden antialiased">
-		<!-- WebGL Background Layer -->
+	<body class="overflow-x-hidden antialiased">
 		<BackgroundCanvas />
-		<SmoothScroll />
-		<ScrollAnimations />
-		
-		<!-- Foreground Content Layer -->
 		<a class="skip-link" href="#main-content">Skip to content</a>
-		<div class="relative z-10">
-			<slot />
-		</div>
+		<slot />
 	</body>
 </html>

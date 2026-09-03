@@ -23,6 +23,7 @@ export interface BusinessProfile {
 		readonly region: string;
 		readonly countryCode: string;
 		readonly hours: string;
+		readonly serviceArea: string;
 	};
 }
 
@@ -30,6 +31,7 @@ export interface Service {
 	readonly number: string;
 	readonly title: string;
 	readonly description: string;
+	readonly detail: string;
 }
 
 const phoneDigits = '971585227149';
@@ -61,7 +63,8 @@ export const business = {
 		locality: 'Ras Al Khaimah',
 		region: 'Ras Al Khaimah',
 		countryCode: 'AE',
-		hours: 'Monday-Friday, approximately 9:00am-5:00pm',
+		hours: 'Monday-Friday, 8:00am-5:00pm',
+		serviceArea: 'By appointment in Ras Al Khaimah',
 	},
 } as const satisfies BusinessProfile;
 
@@ -70,20 +73,30 @@ export const services = [
 		number: '01',
 		title: 'Diagnostics',
 		description: 'Clear answers from careful inspection, fault finding, and practical repair guidance.',
+		detail: 'We inspect the symptoms, explain what we find, and outline the sensible next step before work begins.',
 	},
 	{
 		number: '02',
 		title: 'Bodywork',
 		description: 'Thoughtful restoration for exterior damage, panel alignment, and everyday wear.',
+		detail: 'From panel alignment to exterior damage, we focus on a clean repair and a clear handover.',
 	},
 	{
 		number: '03',
 		title: 'Paintless Dent Repair',
 		description: 'Precision dent removal that preserves your vehicle’s original finish whenever possible.',
+		detail: 'Where the finish allows, we remove dents without unnecessary repainting or disruption to the original surface.',
 	},
 	{
 		number: '04',
 		title: 'Detailing',
 		description: 'A considered clean inside and out, from daily drivers to cars worth slowing down for.',
+		detail: 'We refresh the cabin and exterior with an attentive finish suited to how you use your vehicle.',
 	},
 ] as const satisfies readonly Service[];
+
+export const temporaryHeroImage = {
+	src: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85',
+	alt: 'Dark sports car photographed on an open road',
+	source: 'Unsplash, temporary licensed stock image',
+} as const;
