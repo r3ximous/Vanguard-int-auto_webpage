@@ -1,6 +1,10 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { business } from '../data/business';
+import BackgroundCanvas from '../components/BackgroundCanvas.astro';
+import SmoothScroll from '../components/SmoothScroll.astro';
+import ScrollAnimations from '../components/ScrollAnimations.astro';
 
 interface Props {
 	title?: string;
@@ -70,9 +74,18 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
 		<script type="application/ld+json" is:inline set:html={localBusinessJson}></script>
+		<ClientRouter />
 	</head>
-	<body>
+	<body class="bg-black text-white overflow-x-hidden antialiased">
+		<!-- WebGL Background Layer -->
+		<BackgroundCanvas />
+		<SmoothScroll />
+		<ScrollAnimations />
+		
+		<!-- Foreground Content Layer -->
 		<a class="skip-link" href="#main-content">Skip to content</a>
-		<slot />
+		<div class="relative z-10">
+			<slot />
+		</div>
 	</body>
 </html>

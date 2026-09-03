@@ -1,6 +1,9 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Inter:wght@300;400;600&display=swap');
 
 :root {
+	--font-heading: 'Syne', sans-serif;
+	--font-body: 'Inter', sans-serif;
 	font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
 	color: #f8fafc;
 	color-scheme: dark;
@@ -90,3 +93,86 @@ body {
 	*, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 	.button:hover, .service-card:hover, .gallery-card img:hover { transform: none; }
 }
+
+/* Smooth scroll and WebGL styling */
+h1, h2, h3, .font-heading {
+	font-family: var(--font-heading);
+	letter-spacing: -0.03em;
+}
+
+.glass-panel {
+	background: rgba(255, 255, 255, 0.03);
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 16px;
+	transition: all 0.3s ease;
+}
+
+.glass-panel:hover {
+	background: rgba(255, 255, 255, 0.05);
+	border-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+}
+
+.glass-panel--accent {
+	background: rgba(0, 212, 255, 0.05);
+	border-color: rgba(0, 212, 255, 0.2);
+}
+
+.glass-panel--accent:hover {
+	background: rgba(0, 212, 255, 0.1);
+	border-color: rgba(0, 212, 255, 0.3);
+	box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	/* Disable WebGL on low-power devices */
+	@media (prefers-reduced-motion: reduce) {
+		#canvas-container {
+			display: none;
+		}
+
+		body {
+			background: #020617;
+		}
+	}
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+	.glass-panel,
+	.glass-panel--accent {
+		transition: none;
+	}
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+/* Performance optimization for mobile */
+@media (max-width: 640px) {
+	body {
+		background:
+			radial-gradient(circle at 82% 12%, rgba(245, 158, 11, 0.08), transparent 20rem),
+			#020617;
+	}
+
+	.hero-grid {
+		opacity: 0.15;
+		background-size: 3rem 3rem;
+	}
+
+	.hero-section::after {
+		right: -20rem;
+		top: 4rem;
+		height: 20rem;
+		width: 20rem;
+	}
+}
+

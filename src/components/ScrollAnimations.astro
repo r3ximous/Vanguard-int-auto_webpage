@@ -1,0 +1,70 @@
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initScrollAnimations() {
+    // Fade-up animations
+    const fadeUpElements = document.querySelectorAll('[data-scroll-fade-up]');
+    fadeUpElements.forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 80%',
+          end: 'top 50%',
+          scrub: 0.5,
+          markers: false,
+        },
+      });
+    });
+
+    // Stagger animations for service cards
+    const staggerElements = document.querySelectorAll('[data-scroll-stagger]');
+    staggerElements.forEach((el) => {
+      const index = parseInt(el.getAttribute('data-scroll-stagger') || '0');
+      gsap.from(el, {
+        opacity: 0,
+        y: 60,
+        duration: 0.8,
+        delay: index * 0.1,
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          end: 'top 55%',
+          scrub: 0.5,
+          markers: false,
+        },
+      });
+    });
+
+    // Scale animations for main content
+    const scaleElements = document.querySelectorAll('[data-scroll-animate]');
+    scaleElements.forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        scale: 0.95,
+        y: 20,
+        duration: 1.2,
+        ease: 'back.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 90%',
+          markers: false,
+        },
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    initScrollAnimations();
+    ScrollTrigger.refresh();
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    ScrollTrigger.refresh();
+  });
+</script>

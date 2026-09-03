@@ -1,0 +1,200 @@
+<div id="canvas-container" class="fixed inset-0 z-0 pointer-events-none">
+  <canvas id="webgl-canvas" class="w-full h-full block"></canvas>
+</div>
+
+<script>
+  import * as THREE from 'three';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  class VanguardScene {
+    scene!: THREE.Scene;
+    camera!: THREE.PerspectiveCamera;
+    renderer!: THREE.WebGLRenderer;
+    mesh!: THREE.Mesh;
+    particles!: THREE.Points;
+    mouseX = 0;
+    mouseY = 0;
+    scrollProgress = 0;
+    animationFrameId = 0;
+
+    constructor(canvas: HTMLCanvasElement) {
+      this.initScene(canvas);
+      this.createGeometry();
+      this.createLighting();
+      this.createParticles();
+      this.setupAnimations();
+      this.setupEventListeners();
+      this.animate();
+    }
+
+    initScene(canvas: HTMLCanvasElement) {
+      this.scene = new THREE.Scene();
+      this.scene.fog = new THREE.Fog(0x000000, 10, 50);
+
+      this.camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      this.camera.position.z = 5;
+
+      this.renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+      });
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.renderer.setClearColor(0x000000, 0);
+    }
+
+    createGeometry() {
+      // Main metallic mesh with enhanced materials
+      const geometry = new THREE.IcosahedronGeometry(2, 5);
+      
+      const material = new THREE.MeshPhysicalMaterial({
+        color: 0x111111,
+        roughness: 0.15,
+        metalness: 0.95,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05,
+        emissive: 0x003366,
+        emissiveIntensity: 0.1,
+      });
+
+      this.mesh = new THREE.Mesh(geometry, material);
+      this.scene.add(this.mesh);
+    }
+
+    createLighting() {
+      // Primary cyan light (Vanguard color)
+      const pointLight1 = new THREE.PointLight(0x00d4ff, 2.5, 100);
+      pointLight1.position.set(8, 5, 8);
+      this.scene.add(pointLight1);
+
+      // Secondary accent light
+      const pointLight2 = new THREE.PointLight(0xff8800, 1.5, 100);
+      pointLight2.position.set(-8, -3, 5);
+      this.scene.add(pointLight2);
+
+      // Ambient lighting for overall illumination
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      this.scene.add(ambientLight);
+    }
+
+    createParticles() {
+      const particlesCount = 50;
+      const positions = new Float32Array(particlesCount * 3);
+
+      for (let i = 0; i < particlesCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 20;
+        positions[i + 1] = (Math.random() - 0.5) * 20;
+        positions[i + 2] = (Math.random() - 0.5) * 20;
+      }
+
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
+      );
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0x00d4ff,
+        size: 0.05,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.3,
+      });
+
+      this.particles = new THREE.Points(particleGeometry, particleMaterial);
+      this.scene.add(this.particles);
+    }
+
+    setupAnimations() {
+      // Scroll-triggered rotation
+      gsap.to(this.mesh.rotation, {
+        x: Math.PI * 2,
+        y: Math.PI * 4,
+        scrollTrigger: {
+          trigger: 'main',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.5,
+          onUpdate: (self) => {
+            this.scrollProgress = self.progress;
+          },
+        },
+      });
+    }
+
+    setupEventListeners() {
+      window.addEventListener('mousemove', (e) => {
+        this.mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        this.mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      window.addEventListener('resize', () => this.onWindowResize());
+    }
+
+    onWindowResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }
+
+    animate = () => {
+      this.animationFrameId = requestAnimationFrame(this.animate);
+
+      // Smooth rotation
+      this.mesh.rotation.z += 0.002;
+
+      // Mouse tracking with smooth easing
+      this.mesh.position.x += (this.mouseX * 0.3 - this.mesh.position.x) * 0.08;
+      this.mesh.position.y += (-this.mouseY * 0.3 - this.mesh.position.y) * 0.08;
+
+      // Scroll-based scale animation
+      this.mesh.scale.set(
+        1 + this.scrollProgress * 0.2,
+        1 + this.scrollProgress * 0.2,
+        1 + this.scrollProgress * 0.2
+      );
+
+      // Particle animation
+      if (this.particles) {
+        this.particles.rotation.x += 0.0003;
+        this.particles.rotation.y += 0.0005;
+      }
+
+      this.renderer.render(this.scene, this.camera);
+    };
+
+    dispose() {
+      cancelAnimationFrame(this.animationFrameId);
+      this.renderer.dispose();
+    }
+  }
+
+  let scene: VanguardScene;
+
+  function initThree() {
+    const canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    scene = new VanguardScene(canvas);
+  }
+
+  function cleanup() {
+    if (scene) {
+      scene.dispose();
+    }
+  }
+
+  document.addEventListener('astro:page-load', initThree);
+  document.addEventListener('astro:before-swap', cleanup);
+</script>
