@@ -1,9 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = 'http://127.0.0.1:4321';
+const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const serverCommand = process.env.CI
-	? 'npm run preview -- --host 127.0.0.1'
-	: 'npm run build && npm run preview -- --host 127.0.0.1';
+	? `${npmCommand} run preview -- --host 127.0.0.1`
+	: `${npmCommand} run build && ${npmCommand} run preview -- --host 127.0.0.1`;
 
 export default defineConfig({
 	testDir: './tests/e2e',
