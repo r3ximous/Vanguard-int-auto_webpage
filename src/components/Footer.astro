@@ -15,8 +15,8 @@ import { business } from "../data/business";
                 view.
             </p>
         </div><div class="sm:text-right">
-            <a class="footer-link" href={`mailto:${business.email}`}
-                >{business.email}</a
+            <a class="footer-link" href={business.contact.email.href}
+                >{business.contact.email.address}</a
             ><p class="mt-2">
                 © {new Date().getFullYear()} Vanguard International Automotive L.L.C
             </p>

@@ -4,21 +4,36 @@ import bodywork from "../assets/gallery/bodywork.svg";
 import detailing from "../assets/gallery/detailing.svg";
 import diagnostics from "../assets/gallery/diagnostics.svg";
 
-const images = [bodywork, detailing, diagnostics];
-const captions = [
-    ["Bodywork, with restraint", "Temporary development image"],
-    ["The finish matters", "Temporary development image"],
-    ["Look closer", "Temporary development image"],
-];
+const galleryItems = [
+    {
+        image: bodywork,
+        title: "Bodywork, with restraint",
+        label: "Temporary development image",
+        alt: "Stylized side profile of a car representing bodywork services",
+    },
+    {
+        image: detailing,
+        title: "The finish matters",
+        label: "Temporary development image",
+        alt: "Abstract curved lines representing a polished vehicle finish",
+    },
+    {
+        image: diagnostics,
+        title: "Look closer",
+        label: "Temporary development image",
+        alt: "Stylized diagnostic graph over a vehicle silhouette",
+    },
+] as const;
 ---
 
-<section id="gallery" class="section-band section-band--dark">
+<section id="gallery" class="section-band section-band--dark" aria-labelledby="gallery-heading">
     <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
         <div
             class="flex flex-col justify-between gap-8 md:flex-row md:items-end"
         >
             <div>
                 <p class="eyebrow">A glimpse of the approach</p><h2
+                    id="gallery-heading"
                     class="section-title mt-5 max-w-2xl text-white"
                 >
                     Precision shows up<br /><em>in the small things.</em>
@@ -30,31 +45,28 @@ const captions = [
         </div>
         <div class="mt-14 grid gap-5 md:grid-cols-3">
             {
-                images.map((image, index) => (
+                galleryItems.map((item) => (
                     <figure class="gallery-card">
-                        <>
-                            <div class="overflow-hidden">
-                                <Image
-                                    src={image}
-                                    alt={captions[index][0]}
-                                    width={800}
-                                    height={600}
-                                    format="svg"
-                                    loading="lazy"
-                                    class="aspect-4/3 w-full object-cover transition duration-700 hover:scale-105"
-                                />
-                            </div>
-                            <figcaption class="flex justify-between gap-4 border-t border-white/15 pt-4 text-sm">
-                                <>
-                                    <span class="font-semibold text-white">
-                                        {captions[index][0]}
-                                    </span>
-                                    <span class="text-right text-slate-500">
-                                        {captions[index][1]}
-                                    </span>
-                                </>
-                            </figcaption>
-                        </>
+                        <div class="overflow-hidden">
+                            <Image
+                                src={item.image}
+                                alt={item.alt}
+                                width={800}
+                                height={600}
+                                format="svg"
+                                loading="lazy"
+                                decoding="async"
+                                class="aspect-4/3 w-full object-cover transition duration-700 hover:scale-105"
+                            />
+                        </div>
+                        <figcaption class="flex justify-between gap-4 border-t border-white/15 pt-4 text-sm">
+                            <span class="font-semibold text-white">
+                                {item.title}
+                            </span>
+                            <span class="text-right text-slate-500">
+                                {item.label}
+                            </span>
+                        </figcaption>
                     </figure>
                 ))
             }

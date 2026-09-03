@@ -2,6 +2,7 @@
 
 :root {
 	font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+	color: #f8fafc;
 	color-scheme: dark;
 	background: #020617;
 }
@@ -13,6 +14,7 @@ html {
 body {
 	margin: 0;
 	min-width: 320px;
+	overflow-x: clip;
 	background:
 		radial-gradient(circle at 82% 12%, rgba(245, 158, 11, 0.12), transparent 28rem),
 		#020617;
@@ -41,7 +43,7 @@ body {
 	font-weight: 700;
 }
 
-.skip-link:focus { transform: translateY(0); }
+.skip-link:focus-visible { transform: translateY(0); }
 .site-header { position: absolute; inset: 0 0 auto; z-index: 20; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(2,6,23,.5); backdrop-filter: blur(16px); }
 .brand-mark { display: inline-flex; align-items: center; gap: .7rem; color: #fff; font-size: .85rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .brand-mark__symbol { display: grid; height: 2rem; width: 2rem; place-items: center; border: 1px solid #fbbf24; color: #fbbf24; font-size: 1rem; font-style: italic; }
@@ -59,7 +61,7 @@ body {
 .hero-aside__line { position: absolute; left: -1px; top: 0; height: 4rem; width: 1px; background: #fbbf24; }
 .button { display: inline-flex; min-height: 3rem; align-items: center; justify-content: center; gap: .7rem; border: 1px solid transparent; padding: .75rem 1.25rem; font-size: .88rem; font-weight: 800; letter-spacing: .01em; transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease; }
 .button:hover { transform: translateY(-2px); }
-.button:focus, .nav-link:focus, .footer-link:focus, .whatsapp-float:focus { outline: 2px solid #fbbf24; outline-offset: 4px; }
+.button:focus-visible, .nav-link:focus-visible, .footer-link:focus-visible, .brand-mark:focus-visible, .whatsapp-float:focus-visible { outline: 2px solid #fbbf24; outline-offset: 4px; }
 .button--small { min-height: 2.5rem; padding: .5rem 1rem; }
 .button--whatsapp { background: #25d366; color: #020617; }
 .button--whatsapp:hover { background: #4be27f; }
@@ -84,4 +86,7 @@ body {
 .whatsapp-float { position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 50; display: flex; align-items: center; gap: .7rem; border-radius: 999px; background: #25d366; padding: .75rem 1rem; color: #020617; font-size: .8rem; font-weight: 800; box-shadow: 0 12px 32px rgba(0,0,0,.25); }
 .whatsapp-float__label { display: none; }
 @media (min-width: 640px) { .whatsapp-float__label { display: inline; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+	.button:hover, .service-card:hover, .gallery-card img:hover { transform: none; }
+}

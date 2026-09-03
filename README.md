@@ -1,43 +1,62 @@
-# Astro Starter Kit: Minimal
+# Vanguard International Automotive website
+
+Static Astro website for Vanguard International Automotive L.L.C.
+
+## Requirements
+
+- Node.js 22.12 or newer
+- npm
+
+## Development
+
+Install dependencies:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm ci
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start Astro in background mode:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run astro -- dev --background
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Manage the background server with:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+npm run astro -- dev status
+npm run astro -- dev logs
+npm run astro -- dev stop
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Quality checks
 
-## 🧞 Commands
+Type-check Astro components:
 
-All commands are run from the root of the project, from a terminal:
+```sh
+npm run check
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Create the production build:
 
-## 👀 Want to learn more?
+```sh
+npm run build
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Run the Chromium smoke tests against a production build:
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+```
+
+The Playwright configuration builds the site automatically for local test runs. CI runs type checking, an explicit production build, and the same smoke tests on every push and pull request.
+
+## Project structure
+
+- `src/pages/` — Astro routes
+- `src/layouts/` — shared document layout and metadata
+- `src/components/` — page sections and UI
+- `src/data/` — typed business and service content
+- `src/styles/` — Tailwind entry point and global design system
+- `tests/e2e/` — Playwright browser smoke tests

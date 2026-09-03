@@ -5,23 +5,71 @@ import { business } from '../data/business';
 interface Props {
 	title?: string;
 	description?: string;
+	canonical?: string | URL;
+	socialImage?: string | URL;
+	noindex?: boolean;
 }
 
-const { title = `${business.shortName} | UAE Automotive Care`, description = 'Diagnostics, bodywork, paintless dent repair, and detailing from Vanguard International Automotive L.L.C.' } = Astro.props;
+const {
+	title = `${business.shortName} | UAE Automotive Care`,
+	description = business.description,
+	canonical,
+	socialImage,
+	noindex = false,
+} = Astro.props;
+
+const canonicalUrl = canonical
+	? new URL(canonical, Astro.site ?? Astro.url)
+	: Astro.site
+		? new URL(Astro.url.pathname, Astro.site)
+		: undefined;
+const socialImageUrl = socialImage
+	? new URL(socialImage, Astro.site ?? Astro.url)
+	: undefined;
+const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+const localBusinessSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'AutoRepair',
+	name: business.legalName,
+	description,
+	telephone: business.contact.phone.e164,
+	email: business.contact.email.address,
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: business.location.streetAddress,
+		addressLocality: business.location.locality,
+		addressRegion: business.location.region,
+		addressCountry: business.location.countryCode,
+	},
+};
+const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<meta name="robots" content={robots} />
 		<meta name="theme-color" content="#020617" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_AE" />
+		<meta property="og:site_name" content={business.shortName} />
+		<meta name="twitter:card" content={socialImageUrl ? 'summary_large_image' : 'summary'} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{canonicalUrl && <link rel="canonical" href={canonicalUrl.toString()} />}
+		{canonicalUrl && <meta property="og:url" content={canonicalUrl.toString()} />}
+		{socialImageUrl && <meta property="og:image" content={socialImageUrl.toString()} />}
+		{socialImageUrl && <meta name="twitter:image" content={socialImageUrl.toString()} />}
+		<link rel="icon" href="/favicon.ico" sizes="any" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
+		<script type="application/ld+json" is:inline set:html={localBusinessJson}></script>
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to content</a>

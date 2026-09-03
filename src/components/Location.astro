@@ -2,12 +2,13 @@
 import { business } from "../data/business";
 ---
 
-<section id="location" class="section-band section-band--light">
+<section id="location" class="section-band section-band--light" aria-labelledby="location-heading">
     <div
         class="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-12 lg:py-32"
     >
         <div>
             <p class="eyebrow eyebrow--dark">Find Vanguard</p><h2
+                id="location-heading"
                 class="section-title mt-5 text-slate-950"
             >
                 A workshop<br /><em>in transition.</em>
@@ -17,10 +18,10 @@ import { business } from "../data/business";
                 current drop-off point with us before you travel.
             </p><a
                 class="button button--dark mt-8"
-                href={business.whatsappHref}
+                href={business.contact.whatsapp.href}
                 target="_blank"
-                rel="noreferrer"
-                >Confirm the current location <span aria-hidden="true">↗</span
+                rel="noopener noreferrer"
+                >Confirm the current location <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span
                 ></a>
         </div>
         <div class="location-panel">
@@ -31,7 +32,7 @@ import { business } from "../data/business";
             </p><address
                 class="mt-5 not-italic text-xl font-semibold leading-8 text-slate-950"
             >
-                {business.address}
+                {business.location.displayAddress}
             </address><dl
                 class="mt-8 grid gap-5 border-t border-slate-300 pt-6 text-sm sm:grid-cols-2"
             >
@@ -40,7 +41,7 @@ import { business } from "../data/business";
                         class="font-bold uppercase tracking-widest text-slate-500"
                     >
                         Hours
-                    </dt><dd class="mt-2 text-slate-800">{business.hours}</dd>
+                    </dt><dd class="mt-2 text-slate-800">{business.location.hours}</dd>
                 </div><div>
                     <dt
                         class="font-bold uppercase tracking-widest text-slate-500"
