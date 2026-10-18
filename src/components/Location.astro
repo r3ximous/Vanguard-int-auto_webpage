@@ -9,10 +9,10 @@ import { business } from "../data/business";
         <div>
             <p class="eyebrow eyebrow--dark">Find Vanguard</p><h2
                 id="location-heading"
-                class="section-title mt-5 text-slate-950"
+                class="section-title mt-5"
             >
                 Care that works<br /><em>around your day.</em>
-            </h2><p class="mt-6 leading-7 text-slate-600">
+            </h2><p class="mt-6 leading-7 text-[color:var(--muted)]">
                 Vanguard serves drivers across Ras Al Khaimah by appointment. Message us
                 before you travel and we will confirm the current drop-off point and the
                 best time for your vehicle.
@@ -24,34 +24,49 @@ import { business } from "../data/business";
                 >Confirm your appointment <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span
                 ></a>
         </div>
-        <div class="location-panel">
+        <div class="location-panel" data-reveal>
             <div class="location-panel__pin" aria-hidden="true">+</div><p
                 class="eyebrow eyebrow--dark"
             >
                 Appointment details
             </p><address
-                class="mt-5 not-italic text-xl font-semibold leading-8 text-slate-950"
+                class="mt-5 not-italic text-xl font-semibold leading-8"
             >
-                {business.location.serviceArea}
+                {business.location.serviceArea}<br /><span class="block mt-2 text-sm font-normal leading-6 text-[color:var(--muted)]">{business.location.displayAddress}</span>
             </address><dl
-                class="mt-8 grid gap-5 border-t border-slate-300 pt-6 text-sm sm:grid-cols-2"
+                class="mt-8 grid gap-5 border-t border-[color:var(--line)] pt-6 text-sm sm:grid-cols-2"
             >
                 <div>
                     <dt
-                        class="font-bold uppercase tracking-widest text-slate-500"
+                        class="font-bold uppercase tracking-widest text-[color:var(--muted)]"
                     >
                         Hours
-                    </dt><dd class="mt-2 text-slate-800">{business.location.hours}</dd>
+                    </dt><dd class="mt-2">
+                        {business.location.hours}
+                    </dd>
                 </div><div>
                     <dt
-                        class="font-bold uppercase tracking-widest text-slate-500"
+                        class="font-bold uppercase tracking-widest text-[color:var(--muted)]"
                     >
                         Drop-off
-                    </dt><dd class="mt-2 text-slate-800">
+                    </dt><dd class="mt-2">
                         Confirmed by WhatsApp before arrival
                     </dd>
                 </div>
             </dl>
+            <div class="location-map-frame">
+                <iframe
+                    src={business.location.mapsEmbedUrl}
+                    title={`Map showing ${business.shortName} at ${business.location.displayAddress}`}
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen
+                ></iframe>
+            </div>
+            <a class="location-panel__map" href={business.location.directionsUrl} target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.71 11.29l-9-9a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42l9 9a1 1 0 0 0 1.42 0l9-9a1 1 0 0 0 0-1.42zM14 14.5V12h-4v2.5L7.5 12 10 9.5V12h4V9.5l2.5 2.5z"/></svg>
+                Get directions <span class="sr-only">(opens Google Maps in a new tab)</span>
+            </a>
         </div>
     </div>
 </section>

@@ -1,0 +1,35 @@
+---
+// Lightweight scroll-reveal driven by IntersectionObserver.
+// Honors prefers-reduced-motion (CSS keeps [data-reveal] visible in that case).
+---
+
+<script>
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    function revealAll() {
+        document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => el.classList.add("is-revealed"));
+    }
+
+    let observer: IntersectionObserver | undefined;
+
+    function initScrollReveal() {
+        observer?.disconnect();
+        if (reducedMotion.matches) {
+            revealAll();
+            return;
+        }
+        observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add("is-revealed");
+                    observer?.unobserve(entry.target);
+                });
+            },
+            { rootMargin: "0px 0px -12% 0px", threshold: 0.05 },
+        );
+        document.querySelectorAll("[data-reveal]").forEach((el) => observer?.observe(el));
+    }
+
+    document.addEventListener("astro:page-load", initScrollReveal);
+</script>

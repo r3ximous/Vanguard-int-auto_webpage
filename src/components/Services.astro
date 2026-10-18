@@ -1,15 +1,21 @@
 ---
 import { business, services } from "../data/business";
+import diagnosticsArt from "../assets/gallery/diagnostics.svg";
+import bodyworkArt from "../assets/gallery/bodywork.svg";
+import detailingArt from "../assets/gallery/detailing.svg";
+
+// Workshop illustration placeholders until real photography is approved.
+const placeholders = [diagnosticsArt, bodyworkArt, null, detailingArt];
 ---
 
 <section id="services" class="section-band section-band--light" aria-labelledby="services-heading">
     <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
-        <div class="section-intro grid gap-8 lg:grid-cols-[0.8fr_1.2fr]" data-scroll-fade-up>
+        <div class="section-intro grid gap-8 lg:grid-cols-[0.8fr_1.2fr]" data-reveal>
             <p class="eyebrow eyebrow--dark">What we do</p>
             <div>
-                <h2 id="services-heading" class="section-title text-slate-950">
+                <h2 id="services-heading" class="section-title">
                     Good work begins<br /><em>with good listening.</em>
-                </h2><p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+                </h2><p class="mt-6 max-w-xl text-lg leading-8 text-[color:var(--muted)]">
                     Every vehicle arrives with a story. We take the time to
                     understand it, then recommend the work that actually moves
                     things forward.
@@ -17,27 +23,29 @@ import { business, services } from "../data/business";
             </div>
         </div>
         <div
-            class="mt-16 grid gap-px overflow-hidden border border-slate-300 bg-slate-300 sm:grid-cols-2"
+            class="mt-16 grid gap-px overflow-hidden border border-[color:var(--line)] bg-[color:var(--line)] sm:grid-cols-2"
         >
             {
                 services.map((service, index) => (
-                    <article class={`service-card service-card--${index + 1} bg-[#f3f0e8] p-7 sm:p-9`} data-scroll-stagger={index}>
+                    <article class={`service-card service-card--${index + 1} p-7 sm:p-9`} data-reveal style={`--reveal-index: ${index}`}>
                         <details>
                             <summary class="service-card__summary">
-                            <span class="text-sm font-bold text-amber-700">
+                            <span class="text-sm font-bold">
                                 {service.number}
                             </span>
-                            <h3 class="mt-16 text-2xl font-bold text-slate-950">
-                                {service.title}
-                            </h3>
+                            <h3 class="mt-4 text-2xl font-bold">{service.title}</h3>
                             </summary>
                             <div class="service-card__content">
                                 <div>
-                                    <p class="mt-4 leading-7 text-slate-600">
+                                    <p class="mt-4 leading-7 text-[color:var(--muted)]">
                                         {service.description}
                                     </p>
-                                    <p class="service-card__detail mt-3 leading-7 text-slate-600">{service.detail}</p>
-                                    <a class="button button--outline-dark mt-6" href={`${business.contact.whatsapp.href}&service=${encodeURIComponent(service.title)}`} target="_blank" rel="noopener noreferrer">Ask about {service.title}<span aria-hidden="true">↗</span></a>
+                                    <p class="service-card__detail mt-3 leading-7 text-[color:var(--muted)]">{service.detail}</p>
+                                    <p class="service-card__assurance"><span aria-hidden="true">✓</span>{service.assurance}</p>
+                                    <div class="mt-6 flex flex-wrap items-center gap-4">
+                                        <a class="button button--outline-dark" href={`${business.contact.whatsapp.href}&service=${encodeURIComponent(service.title)}`} target="_blank" rel="noopener noreferrer">Ask about {service.title}<span aria-hidden="true">↗</span></a>
+                                        <img src={placeholders[index]} alt="" aria-hidden="true" class="h-12 w-auto opacity-70" />
+                                    </div>
                                 </div>
                             </div>
                         </details>

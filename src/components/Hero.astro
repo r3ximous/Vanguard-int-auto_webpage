@@ -6,13 +6,17 @@ import { business } from "../data/business";
     <div class="hero-grid" aria-hidden="true"></div>
     <div
         class="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:px-12 lg:py-32"
-        data-scroll-animate
+        data-reveal
     >
         <div class="relative z-10">
             <p class="eyebrow">Independent automotive care · UAE</p>
             <h1 id="hero-heading" class="display-title mt-6 max-w-4xl">
                 Keep the craft.<br /><span>Lose the worry.</span>
             </h1>
+            <p class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+                {business.tagline}
+            </p>
             <p class="hero-copy mt-8 max-w-2xl">
                 Vanguard brings a careful eye to diagnostics, bodywork,
                 paintless dent repair, and detailing. Straight answers,
@@ -34,22 +38,22 @@ import { business } from "../data/business";
         <div class="hero-aside relative z-10">
             <div class="hero-aside__line"></div>
             <p
-                class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300"
+                class="text-sm font-semibold uppercase tracking-[0.2em] text-[color:var(--signal-dark)]"
             >
                 The Vanguard standard
             </p>
-            <p class="mt-5 text-2xl font-semibold leading-tight text-white">
+            <p class="mt-5 text-2xl font-semibold leading-tight text-[color:var(--ink)]">
                 Your car is a daily decision. Let the care behind it be an easy
                 one.
             </p>
             <div
-                class="mt-8 grid grid-cols-2 gap-6 border-t border-white/15 pt-6 text-sm text-slate-300"
+                class="mt-8 grid grid-cols-2 gap-6 border-t border-[color:var(--line)] pt-6 text-sm text-[color:var(--muted)]"
             >
                 <div>
-                    <strong class="block text-2xl text-white">04</strong> core services
+                    <strong class="block text-2xl text-[color:var(--ink)]">04</strong> core services
                 </div>
                 <div>
-                    <strong class="block text-2xl text-white">RAK</strong> UAE based
+                    <strong class="block text-2xl text-[color:var(--ink)]">RAK</strong> UAE based
                 </div>
             </div>
         </div>

@@ -1,9 +1,15 @@
-<div id="canvas-container" aria-hidden="true">
-    <canvas id="webgl-canvas"></canvas>
-</div>
+---
+// Decorative WebGL scene: a stylised car that drifts as the page scrolls.
+// Rendered only when conditions allow; every failure path degrades silently
+// to the flat paper background (no console errors, no layout impact).
+---
+
+<div id="canvas-container" aria-hidden="true"></div>
 
 <script>
     import * as THREE from "three";
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     class VanguardCarScene {
         private scene = new THREE.Scene();
@@ -13,9 +19,7 @@
         private targetScroll = 0;
         private currentScroll = 0;
         private frame = 0;
-        private reducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        ).matches;
+        private reducedMotion = prefersReducedMotion;
 
         constructor(canvas: HTMLCanvasElement) {
             this.renderer = new THREE.WebGLRenderer({
@@ -31,24 +35,15 @@
             this.updateSize();
             this.updateScroll();
             window.addEventListener("resize", this.updateSize);
-            window.addEventListener("scroll", this.updateScroll, {
-                passive: true,
-            });
+            window.addEventListener("scroll", this.updateScroll, { passive: true });
             this.animate();
         }
 
         private createCar() {
             const bodyMaterial = new THREE.MeshPhysicalMaterial({ color: 0x202b2b, metalness: 0.8, roughness: 0.2, clearcoat: 0.8, clearcoatRoughness: 0.14 });
-            const trimMaterial = new THREE.MeshStandardMaterial({
-                color: 0xd56b3e,
-                metalness: 0.55,
-                roughness: 0.3,
-            });
+            const trimMaterial = new THREE.MeshStandardMaterial({ color: 0xd56b3e, metalness: 0.55, roughness: 0.3 });
             const glassMaterial = new THREE.MeshPhysicalMaterial({ color: 0x182a2d, metalness: 0.35, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.08 });
-            const tyreMaterial = new THREE.MeshStandardMaterial({
-                color: 0x111716,
-                roughness: 0.9,
-            });
+            const tyreMaterial = new THREE.MeshStandardMaterial({ color: 0x111716, roughness: 0.9 });
             const chromeMaterial = new THREE.MeshStandardMaterial({ color: 0xb6c3bf, metalness: 0.9, roughness: 0.18 });
             const lightMaterial = new THREE.MeshStandardMaterial({ color: 0xffe3a1, emissive: 0xffb347, emissiveIntensity: 2 });
             const redLightMaterial = new THREE.MeshStandardMaterial({ color: 0x9d1f22, emissive: 0x700000, emissiveIntensity: 1.5 });
@@ -150,14 +145,12 @@
         private animate = () => {
             this.frame = requestAnimationFrame(this.animate);
             if (!this.reducedMotion)
-                this.currentScroll +=
-                    (this.targetScroll - this.currentScroll) * 0.085;
+                this.currentScroll += (this.targetScroll - this.currentScroll) * 0.085;
             this.car.position.y = 1.05 - this.currentScroll * 3.4;
             this.car.position.x =
                 (window.innerWidth < 640 ? 0.75 : 1.95) +
                 Math.sin(this.currentScroll * Math.PI * 2) * 0.42;
-            this.car.rotation.z =
-                Math.sin(this.currentScroll * Math.PI * 2) * 0.08;
+            this.car.rotation.z = Math.sin(this.currentScroll * Math.PI * 2) * 0.08;
             if (!this.reducedMotion) this.car.rotation.x += 0.0015;
             this.renderer.render(this.scene, this.camera);
         };
@@ -169,7 +162,11 @@
             this.car.traverse((object) => {
                 if (object instanceof THREE.Mesh) {
                     object.geometry.dispose();
-                    object.material.dispose();
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach((material) => material.dispose());
+                    } else {
+                        object.material.dispose();
+                    }
                 }
             });
             this.renderer.dispose();
@@ -177,11 +174,41 @@
     }
 
     let scene: VanguardCarScene | undefined;
-    function initThree() {
-        const canvas = document.getElementById("webgl-canvas");
-        if (canvas instanceof HTMLCanvasElement)
-            scene = new VanguardCarScene(canvas);
+
+    function hasWebGLSupport(): boolean {
+        try {
+            const testCanvas = document.createElement("canvas");
+            return !!(window.WebGLRenderingContext && (testCanvas.getContext("webgl") || testCanvas.getContext("experimental-webgl")));
+        } catch {
+            return false;
+        }
     }
+
+    function initThree() {
+        disposeScene();
+        // Graceful degradation: skip the decorative scene entirely when WebGL is
+        // unavailable or motion is reduced — the site never depends on it.
+        if (prefersReducedMotion || !hasWebGLSupport()) return;
+        const container = document.getElementById("canvas-container");
+        if (!(container instanceof HTMLElement)) return;
+        const canvas = document.createElement("canvas");
+        canvas.id = "webgl-canvas";
+        try {
+            container.appendChild(canvas);
+            scene = new VanguardCarScene(canvas);
+        } catch {
+            scene?.dispose();
+            scene = undefined;
+            canvas.remove();
+        }
+    }
+
+    function disposeScene() {
+        scene?.dispose();
+        scene = undefined;
+        document.querySelectorAll("#canvas-container canvas").forEach((node) => node.remove());
+    }
+
     document.addEventListener("astro:page-load", initThree);
-    document.addEventListener("astro:before-swap", () => scene?.dispose());
+    document.addEventListener("astro:before-swap", disposeScene);
 </script>

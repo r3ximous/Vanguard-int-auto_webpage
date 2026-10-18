@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
+import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
 import TrustSignals from '../components/TrustSignals.astro';
@@ -9,18 +10,21 @@ import Location from '../components/Location.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
 ---
 
 <Layout>
-	<Navbar />
-	<main id="main-content">
-		<Hero />
-		<Services />
-		<TrustSignals />
-		<Gallery />
-		<Location />
-		<Contact />
-	</main>
-	<Footer />
-	<WhatsAppButton />
+<Navbar />
+<BackgroundCanvas />
+<main id="main-content">
+<Hero />
+<Services />
+<TrustSignals />
+<Gallery />
+<Location />
+<Contact />
+</main>
+<Footer />
+<WhatsAppButton />
+<ScrollReveal />
 </Layout>
