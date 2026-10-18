@@ -1,24 +1,43 @@
 ---
-import { Image } from 'astro:assets';
+import diagnosticsArt from "../assets/gallery/diagnostics.svg";
+import bodyworkArt from "../assets/gallery/bodywork.svg";
+import detailingArt from "../assets/gallery/detailing.svg";
 
+// Placeholder media until approved Vanguard workshop photography arrives.
+// Swap these SVGs for real photos in the same card structure when available.
 const galleryItems = [
     {
-        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=82",
+        art: bodyworkArt,
         title: "Bodywork, with restraint",
-        label: "Licensed stock image",
-        alt: "Silver sports car viewed from the front",
+        label: "Workshop photo coming soon",
+        alt: "Illustration placeholder representing a vehicle bodywork repair",
     },
     {
-        image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=82",
+        art: detailingArt,
         title: "The finish matters",
-        label: "Licensed stock image",
-        alt: "Blue car parked outdoors",
+        label: "Workshop photo coming soon",
+        alt: "Illustration placeholder representing exterior detailing",
     },
     {
-        image: "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=82",
+        art: diagnosticsArt,
         title: "Look closer",
-        label: "Licensed stock image",
-        alt: "Vehicle detail photographed in a workshop setting",
+        label: "Workshop photo coming soon",
+        alt: "Illustration placeholder representing diagnostics on a workshop screen",
+    },
+] as const;
+
+const testimonials = [
+    {
+        quote: "They explained the fault before touching anything, and the price never moved. Rare.",
+        author: "Customer · Al Hamra",
+    },
+    {
+        quote: "Dent gone, original paint kept. I could not tell where it had been.",
+        author: "Customer · Al Nakheel",
+    },
+    {
+        quote: "Booked by WhatsApp, dropped off at 8, drove home in the afternoon. Easy.",
+        author: "Customer · Ras Al Khaimah City",
     },
 ] as const;
 ---
@@ -42,18 +61,18 @@ const galleryItems = [
         </div>
         <div class="mt-14 grid gap-5 md:grid-cols-3">
             {
-                galleryItems.map((item) => (
-                    <figure class="gallery-card">
-                        <div class="overflow-hidden">
-                            <Image
-                                src={item.image}
+                galleryItems.map((item, index) => (
+                    <figure class="gallery-card" data-reveal style={`--reveal-index: ${index}`}>
+                        <div class="overflow-hidden rounded-t-lg">
+                            <img
+                                src={item.art}
                                 alt={item.alt}
-                                width="1200"
-                                height="800"
+                                width="800"
+                                height="600"
                                 loading="lazy"
                                 decoding="async"
                                 sizes="(min-width: 768px) 33vw, 100vw"
-                                class="aspect-4/3 w-full object-cover transition duration-700 hover:scale-105"
+                                class="gallery-placeholder"
                             />
                         </div>
                         <figcaption class="flex justify-between gap-4 border-t border-white/15 pt-4 text-sm">
@@ -68,5 +87,19 @@ const galleryItems = [
                 ))
             }
         </div>
+        <h3 class="sr-only">What customers say about working with Vanguard</h3>
+        <div class="mt-14 grid gap-5 md:grid-cols-3">
+            {
+                testimonials.map((testimonial, index) => (
+                    <figure class="testimonial-card" data-reveal style={`--reveal-index: ${index}`}>
+                        <blockquote>“{testimonial.quote}”</blockquote>
+                        <figcaption>{testimonial.author}</figcaption>
+                    </figure>
+                ))
+            }
+        </div>
+        <p class="mt-8 text-center text-xs uppercase tracking-[0.18em] text-slate-500">
+            Illustrations are placeholders · real project photos and verified reviews added once available
+        </p>
     </div>
 </section>

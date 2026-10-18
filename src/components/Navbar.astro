@@ -13,7 +13,6 @@ import { business } from "../data/business";
         <nav
             class="site-nav"
             aria-label="Main navigation"
-            data-mobile-nav
         >
             <a class="nav-link" href="#services" data-section-link="services">Services</a>
             <a class="nav-link" href="#gallery" data-section-link="gallery">Gallery</a>
@@ -55,13 +54,29 @@ import { business } from "../data/business";
 
     mobileNavigation?.setAttribute('aria-hidden', 'true');
 
+    let lastScrollTop = 0;
+    let ticking = false;
+
     const updateHeader = () => {
-        const scrollTop = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop);
+        // Condense once the user leaves the top of the page; restore when back at top.
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
         header?.classList.toggle('is-condensed', scrollTop > 24);
+        if (scrollTop < lastScrollTop - 4) {
+            header?.classList.remove('is-condensed');
+        }
+        lastScrollTop = scrollTop;
+        ticking = false;
     };
+
+    const onScroll = () => {
+        if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(updateHeader);
+        }
+    };
+
     updateHeader();
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    document.addEventListener('scroll', updateHeader, { passive: true, capture: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     const setActiveSection = (sectionId: string) => {
         sectionLinks?.forEach((link) => {
@@ -108,7 +123,6 @@ import { business } from "../data/business";
         { rootMargin: '-22% 0px -62% 0px', threshold: [0, 0.2, 0.5, 1] },
     );
     sections.forEach((section) => sectionObserver.observe(section));
-    setActiveSection(window.scrollY > 24 ? 'services' : 'top');
 
     toggle?.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';

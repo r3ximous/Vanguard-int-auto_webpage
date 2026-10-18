@@ -1,82 +1,57 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
-import { business } from '../data/business';
-import BackgroundCanvas from '../components/BackgroundCanvas.astro';
+import { business } from "../data/business";
 
 interface Props {
-	title?: string;
-	description?: string;
-	canonical?: string | URL;
-	socialImage?: string | URL;
-	noindex?: boolean;
+title?: string;
+description?: string;
 }
 
-const {
-	title = `${business.shortName} | UAE Automotive Care`,
-	description = business.description,
-	canonical,
-	socialImage,
-	noindex = false,
-} = Astro.props;
-
-const canonicalUrl = canonical
-	? new URL(canonical, Astro.site ?? Astro.url)
-	: Astro.site
-		? new URL(Astro.url.pathname, Astro.site)
-		: undefined;
-const socialImageUrl = socialImage
-	? new URL(socialImage, Astro.site ?? Astro.url)
-	: undefined;
-const robots = noindex ? 'noindex, nofollow' : 'index, follow';
-const localBusinessSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'AutoRepair',
-	name: business.legalName,
-	description,
-	telephone: business.contact.phone.e164,
-	email: business.contact.email.address,
-	address: {
-		'@type': 'PostalAddress',
-		streetAddress: business.location.streetAddress,
-		addressLocality: business.location.locality,
-		addressRegion: business.location.region,
-		addressCountry: business.location.countryCode,
-	},
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/og.png", Astro.site);
+const structuredData = {
+"@context": "https://schema.org",
+"@type": "AutoRepair",
+name: business.legalName,
+description: business.description,
+url: canonical.href,
+telephone: business.contact.phone.e164,
+email: business.contact.email.address,
+address: {
+"@type": "PostalAddress",
+streetAddress: business.location.streetAddress,
+addressLocality: business.location.locality,
+addressRegion: business.location.region,
+addressCountry: business.location.countryCode,
+},
+openingHours: "Mo-Fr 08:00-17:00",
+areaServed: business.location.locality,
 };
-const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<meta name="robots" content={robots} />
-		<meta name="theme-color" content="#f5f3ee" />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
-		<meta property="og:locale" content="en_AE" />
-		<meta property="og:site_name" content={business.shortName} />
-		<meta name="twitter:card" content={socialImageUrl ? 'summary_large_image' : 'summary'} />
-		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
-		{canonicalUrl && <link rel="canonical" href={canonicalUrl.toString()} />}
-		{canonicalUrl && <meta property="og:url" content={canonicalUrl.toString()} />}
-		{socialImageUrl && <meta property="og:image" content={socialImageUrl.toString()} />}
-		{socialImageUrl && <meta name="twitter:image" content={socialImageUrl.toString()} />}
-		<link rel="icon" href="/favicon.ico" sizes="any" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title}</title>
-		<script type="application/ld+json" is:inline set:html={localBusinessJson}></script>
-		<ClientRouter />
-	</head>
-	<body class="overflow-x-hidden antialiased">
-		<BackgroundCanvas />
-		<a class="skip-link" href="#main-content">Skip to content</a>
-		<slot />
-	</body>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{business.shortName} | UAE Automotive Care</title>
+<meta name="description" content={business.description} />
+<link rel="canonical" href={canonical.href} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:title" content={`${business.shortName} | UAE Automotive Care`} />
+<meta property="og:description" content={business.description} />
+<meta property="og:image" content={ogImage.href} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#f5f3ee" />
+<link
+rel="icon"
+href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23d56b3e'/><text x='16' y='22' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2318201f'>V</text></svg>"
+/>
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</head>
+<body class="bg-[#f5f3ee] text-[#18201f] antialiased">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<slot />
+</body>
 </html>
