@@ -32,6 +32,7 @@ export interface Service {
 	readonly title: string;
 	readonly description: string;
 	readonly detail: string;
+	readonly whatsappMessage: string;
 }
 
 const phoneDigits = '971585227149';
@@ -71,27 +72,31 @@ export const business = {
 export const services = [
 	{
 		number: '01',
-		title: 'Diagnostics',
-		description: 'Clear answers from careful inspection, fault finding, and practical repair guidance.',
+		title: 'Mechanical Repairs & Maintenance',
+		description: 'From routine oil changes and regular servicing to complete engine and transmission replacements, we provide reliable maintenance and repair solutions to keep your vehicle running smoothly.',
 		detail: 'We inspect the symptoms, explain what we find, and outline the sensible next step before work begins.',
+		whatsappMessage: 'Hello Vanguard Automotive, I would like to ask about mechanical repairs and maintenance for my vehicle.',
 	},
 	{
 		number: '02',
-		title: 'Bodywork',
-		description: 'Thoughtful restoration for exterior damage, panel alignment, and everyday wear.',
-		detail: 'From panel alignment to exterior damage, we focus on a clean repair and a clear handover.',
+		title: 'Computer Diagnostics (ECU)',
+		description: 'Identify potential issues with your vehicle through computerised diagnostic scans. A diagnostic scan and clear explanation of fault codes are included free of charge with any repair work or service carried out by us, helping you understand the problem before proceeding.',
+		detail: 'We inspect the symptoms, explain what we find, and outline the sensible next step before work begins.',
+		whatsappMessage: 'Hello Vanguard Automotive, I would like to book a computer diagnostic scan for my vehicle.',
 	},
 	{
 		number: '03',
-		title: 'Paintless Dent Repair',
-		description: 'Precision dent removal that preserves your vehicle’s original finish whenever possible.',
-		detail: 'Where the finish allows, we remove dents without unnecessary repainting or disruption to the original surface.',
+		title: 'Air Conditioning Services',
+		description: 'From air conditioning gas top-ups to fault diagnosis and complete system repairs, we help keep your vehicle’s air conditioning performing efficiently and your drive comfortable.',
+		detail: 'We inspect the symptoms, explain what we find, and outline the sensible next step before work begins.',
+		whatsappMessage: 'Hello Vanguard Automotive, I would like to ask about air conditioning service for my vehicle.',
 	},
 	{
 		number: '04',
-		title: 'Detailing',
-		description: 'A considered clean inside and out, from daily drivers to cars worth slowing down for.',
-		detail: 'We refresh the cabin and exterior with an attentive finish suited to how you use your vehicle.',
+		title: 'Auto Painting & Bodywork',
+		description: 'Restore your vehicle’s appearance with professional repainting, dent repairs, and panel repairs or replacements. Whether you’re dealing with minor cosmetic damage or more extensive bodywork, we help get your vehicle looking its best.',
+		detail: 'We inspect the symptoms, explain what we find, and outline the sensible next step before work begins.',
+		whatsappMessage: 'Hello Vanguard Automotive, I would like to ask about auto painting and bodywork for my vehicle.',
 	},
 ] as const satisfies readonly Service[];
 

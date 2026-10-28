@@ -2,30 +2,21 @@
 import { business } from "../data/business";
 ---
 
-<section id="contact" class="section-band section-band--accent" aria-labelledby="contact-heading">
-    <div
-        class="mx-auto grid max-w-7xl gap-10 px-6 py-20 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12"
-    >
+<section id="contact" class="section-band section-band--contact" aria-labelledby="contact-heading">
+    <div class="wrap contact-wrap">
         <div>
             <p class="eyebrow eyebrow--dark">Ready when you are</p><h2
                 id="contact-heading"
                 class="section-title mt-5 max-w-2xl text-slate-950"
             >
                 Tell us what your car needs.
-            </h2><p class="mt-5 max-w-xl text-lg leading-8 text-slate-800">
-                Send a message for a straightforward conversation about the next
-                sensible step.
-            </p>
-        </div><div class="contact-actions flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <a
-                class="button button--dark"
-                href={business.contact.whatsapp.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                >Chat on WhatsApp <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a
-            ><a class="button button--outline-dark" href={business.contact.phone.href}
-                >Call {business.contact.phone.display}</a>
-            <a class="contact-email" href={business.contact.email.href}>Or email {business.contact.email.address}</a>
+            </h2>                        <p>Three ways to reach us — pick whichever's easiest. WhatsApp gets the fastest reply.</p>
         </div>
+        <div class="contact-grid">
+            <article class="contact-card contact-card--featured"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12c0 4.4-4 8-9 8-1.3 0-2.6-.2-3.7-.7L3 20l1.1-4.1C3.4 14.7 3 13.4 3 12c0-4.4 4-8 9-8s9 3.6 9 8z" /></svg></span><h3>WhatsApp</h3><strong>{business.contact.phone.display}</strong><p>Fastest way to reach us. Send a photo of the damage and we'll give you a straight answer.</p><a class="button button--dark" href={business.contact.whatsapp.href} target="_blank" rel="noopener noreferrer">Start a chat ↗</a></article>
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z" /></svg></span><h3>Call</h3><strong>{business.contact.phone.display}</strong><p>Prefer to talk it through? Call us directly, Monday–Friday, during business hours.</p><a class="button button--ghost-dark" href={business.contact.phone.href}>Call now</a></article>
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18v12H3z" /><path d="m3 7 9 6 9-6" /></svg></span><h3>Email</h3><strong>{business.contact.email.address}</strong><p>For anything that's easier written down — quotes, records, or longer questions.</p><a class="button button--email" href={business.contact.email.href}>Send an email</a></article>
+        </div>
+        <div class="contact-meta"><span><strong>&lt; 1hr</strong>Typical WhatsApp reply</span><span><strong>Mon–Fri</strong>9:00–17:00, UAE time</span><span><strong>UAE</strong>By appointment</span></div>
     </div>
 </section>

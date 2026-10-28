@@ -3,12 +3,13 @@ import { business } from "../data/business";
 ---
 
 <header class="site-header" data-site-header>
-    <div
-        class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5 lg:px-12"
-    >
+    <div class="wrap site-header__inner">
         <a class="brand-mark" href="#top" aria-label="Vanguard Auto home">
-            <span class="brand-mark__symbol" aria-hidden="true">V</span>
-            <span>{business.shortName}</span>
+            <span class="brand-mark__symbol" aria-hidden="true"></span>
+            <span class="brand-mark__copy">
+                <span class="brand-mark__name">Vanguard</span>
+                <span class="brand-mark__sub">Automotive · UAE</span>
+            </span>
         </a>
         <nav
             class="site-nav"
@@ -21,13 +22,7 @@ import { business } from "../data/business";
             <a class="nav-link" href="#contact" data-section-link="contact">Contact</a>
         </nav>
         <div class="site-header__actions">
-        <a class="mobile-header-action mobile-header-action--whatsapp" href={business.contact.whatsapp.href} target="_blank" rel="noopener noreferrer" aria-label="Request a vehicle assessment on WhatsApp (opens in a new tab)">WhatsApp</a>
-        <a class="mobile-header-action" href={business.contact.phone.href} aria-label={`Call ${business.shortName} at ${business.contact.phone.display}`}>Call</a>
-        <a
-            class="button button--small button--outline header-call"
-            href={business.contact.phone.href}
-            aria-label={`Call ${business.shortName} at ${business.contact.phone.display}`}>Call now</a
-        >
+        <a class="button button--small button--outline header-call" href={business.contact.whatsapp.href} target="_blank" rel="noopener noreferrer">Get in touch</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">
             <span class="sr-only">Toggle navigation</span>
             <span aria-hidden="true"></span><span aria-hidden="true"></span>
@@ -46,7 +41,7 @@ import { business } from "../data/business";
 
 <script>
     const header = document.querySelector('[data-site-header]');
-    const toggle = header?.querySelector('.menu-toggle');
+    const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
     const mobileNavigation = header?.querySelector('[data-mobile-navigation]');
     const sectionLinks = header?.querySelectorAll('[data-section-link]');
     const sections = [...(sectionLinks ?? [])]
@@ -55,13 +50,9 @@ import { business } from "../data/business";
 
     mobileNavigation?.setAttribute('aria-hidden', 'true');
 
-    const updateHeader = () => {
-        const scrollTop = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop);
-        header?.classList.toggle('is-condensed', scrollTop > 24);
-    };
+    const updateHeader = () => header?.classList.toggle('is-condensed', window.scrollY > 24);
     updateHeader();
     window.addEventListener('scroll', updateHeader, { passive: true });
-    document.addEventListener('scroll', updateHeader, { passive: true, capture: true });
 
     const setActiveSection = (sectionId: string) => {
         sectionLinks?.forEach((link) => {
@@ -78,7 +69,6 @@ import { business } from "../data/business";
         if (!link) return;
         const sectionId = link.getAttribute('data-section-link') ?? '';
         document.querySelector('[data-site-header]')?.classList.add('is-condensed');
-        sessionStorage.setItem('vanguard-active-section', sectionId);
         setActiveSection(sectionId);
     }, true);
 
@@ -87,16 +77,6 @@ import { business } from "../data/business";
         header?.classList.add('is-condensed');
         setActiveSection(hashSection);
     }
-
-    document.addEventListener('astro:after-swap', () => {
-        const currentHeader = document.querySelector('[data-site-header]');
-        const currentSection = window.location.hash.slice(1) || sessionStorage.getItem('vanguard-active-section') || '';
-        if (!currentHeader || !currentSection) return;
-        currentHeader.classList.add('is-condensed');
-        currentHeader.querySelectorAll('[data-section-link]').forEach((link) => {
-            link.toggleAttribute('aria-current', link.getAttribute('data-section-link') === currentSection);
-        });
-    });
 
     const sectionObserver = new IntersectionObserver(
         (entries) => {
@@ -115,6 +95,7 @@ import { business } from "../data/business";
         toggle.setAttribute('aria-expanded', String(!isOpen));
         mobileNavigation?.setAttribute('aria-hidden', String(isOpen));
         mobileNavigation?.classList.toggle('is-open', !isOpen);
+        document.body.classList.toggle('nav-open', !isOpen);
     });
 
     mobileNavigation?.querySelectorAll('a').forEach((link) => {
@@ -122,6 +103,13 @@ import { business } from "../data/business";
             toggle?.setAttribute('aria-expanded', 'false');
             mobileNavigation.setAttribute('aria-hidden', 'true');
             mobileNavigation.classList.remove('is-open');
+            document.body.classList.remove('nav-open');
         });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || toggle?.getAttribute('aria-expanded') !== 'true') return;
+        toggle.click();
+        toggle.focus();
     });
 </script>

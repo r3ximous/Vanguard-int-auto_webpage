@@ -1,8 +1,6 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import { business } from '../data/business';
-import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 
 interface Props {
 	title?: string;
@@ -50,6 +48,7 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 <!doctype html>
 <html lang="en" dir="ltr">
 	<head>
+		<script is:inline>document.documentElement.classList.add('js');</script>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
@@ -72,11 +71,28 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
 		<script type="application/ld+json" is:inline set:html={localBusinessJson}></script>
-		<ClientRouter />
 	</head>
-	<body class="overflow-x-hidden antialiased">
-		<BackgroundCanvas />
+	<body>
 		<a class="skip-link" href="#main-content">Skip to content</a>
 		<slot />
+		<script is:inline>
+			const revealTargets = document.querySelectorAll(
+				'.trust-grid, .section-intro, .services-grid, .route, .gallery-grid, .location-panel, .contact-grid, .contact-meta',
+			);
+			const revealObserver = new IntersectionObserver(
+				(entries, observer) => {
+					entries.forEach((entry) => {
+						if (!entry.isIntersecting) return;
+						entry.target.classList.add('is-visible');
+						observer.unobserve(entry.target);
+					});
+				},
+				{ rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+			);
+			revealTargets.forEach((target) => {
+				target.classList.add('reveal-target');
+				revealObserver.observe(target);
+			});
+		</script>
 	</body>
 </html>

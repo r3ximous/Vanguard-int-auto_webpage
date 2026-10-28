@@ -1,68 +1,40 @@
 ---
-import { Image } from 'astro:assets';
-
 const galleryItems = [
     {
-        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=82",
         title: "Bodywork, with restraint",
-        label: "Licensed stock image",
-        alt: "Silver sports car viewed from the front",
+        label: "IMG_01",
     },
     {
-        image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=82",
         title: "The finish matters",
-        label: "Licensed stock image",
-        alt: "Blue car parked outdoors",
+        label: "IMG_02",
     },
     {
-        image: "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&q=82",
         title: "Look closer",
-        label: "Licensed stock image",
-        alt: "Vehicle detail photographed in a workshop setting",
+        label: "IMG_03",
     },
 ] as const;
 ---
 
-<section id="gallery" class="section-band section-band--dark" aria-labelledby="gallery-heading">
-    <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
-        <div
-            class="flex flex-col justify-between gap-8 md:flex-row md:items-end"
-        >
+<section id="gallery" class="section-band section-band--light" aria-labelledby="gallery-heading">
+    <div class="wrap section-padding">
+        <div class="section-intro">
             <div>
-                <p class="eyebrow">A glimpse of the approach</p><h2
-                    id="gallery-heading"
-                    class="section-title mt-5 max-w-2xl text-white"
-                >
+                <p class="eyebrow">A glimpse of the approach</p><h2 id="gallery-heading">
                     Precision shows up<br /><em>in the small things.</em>
                 </h2>
-            </div><p class="max-w-sm text-sm leading-6 text-slate-400">
-                Temporary development media is shown here while approved
-                Vanguard workshop photography is being prepared.
+            </div><p>
+                A considered approach to every detail, from first inspection to final handover.
             </p>
         </div>
-        <div class="mt-14 grid gap-5 md:grid-cols-3">
+        <div class="gallery-grid">
             {
                 galleryItems.map((item) => (
                     <figure class="gallery-card">
-                        <div class="overflow-hidden">
-                            <Image
-                                src={item.image}
-                                alt={item.alt}
-                                width="1200"
-                                height="800"
-                                loading="lazy"
-                                decoding="async"
-                                sizes="(min-width: 768px) 33vw, 100vw"
-                                class="aspect-4/3 w-full object-cover transition duration-700 hover:scale-105"
-                            />
+                        <div class="gallery-image">
+                            <span>WORKSHOP PHOTOGRAPHY<br />PENDING</span>
                         </div>
-                        <figcaption class="flex justify-between gap-4 border-t border-white/15 pt-4 text-sm">
-                            <span class="font-semibold text-white">
-                                {item.title}
-                            </span>
-                            <span class="text-right text-slate-500">
-                                {item.label}
-                            </span>
+                        <figcaption>
+                            <span>{item.title}</span><small>{item.label}</small>
                         </figcaption>
                     </figure>
                 ))
