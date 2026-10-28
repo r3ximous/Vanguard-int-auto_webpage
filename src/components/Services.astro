@@ -5,7 +5,12 @@ import bodyworkArt from "../assets/gallery/bodywork.svg";
 import detailingArt from "../assets/gallery/detailing.svg";
 
 // Workshop illustration placeholders until real photography is approved.
-const placeholders = [diagnosticsArt, bodyworkArt, null, detailingArt];
+const placeholders: (string | null)[] = [
+    diagnosticsArt.src,
+    bodyworkArt.src,
+    null,
+    detailingArt.src,
+];
 ---
 
 <section id="services" class="section-band section-band--light" aria-labelledby="services-heading">
