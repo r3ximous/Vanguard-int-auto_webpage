@@ -1,5 +1,7 @@
 ---
 import { business, services } from "../data/business";
+
+const serviceCodes = ['MR', 'ECU', 'AC', 'PB'];
 ---
 
 <section id="services" class="section-band section-band--light" aria-labelledby="services-heading">
@@ -15,8 +17,8 @@ import { business, services } from "../data/business";
                 services.map((service, index) => (
                     <article class={`service-card service-card--${index + 1}`} data-service-card>
                         <details>
-                            <summary class="service-card__summary" aria-label={`Open ${service.title} details`}>
-                                <span>{service.number}</span>
+                            <summary class="service-card__summary">
+                                <span>{serviceCodes[index]}</span>
                                 <h3>{service.title}</h3>
                                 <p>{service.description}</p>
                             </summary>
@@ -31,48 +33,3 @@ import { business, services } from "../data/business";
         </div>
     </div>
 </section>
-
-<script>
-    const serviceCards = document.querySelectorAll<HTMLElement>('[data-service-card]');
-
-    const setServiceState = (card: HTMLElement, open: boolean) => {
-        const details = card.querySelector<HTMLDetailsElement>('details');
-        const content = card.querySelector<HTMLElement>('.service-card__content');
-        if (!details || !content) return;
-
-        if (open) details.open = true;
-        card.classList.toggle('is-open', open);
-        details.querySelector('summary')?.setAttribute('aria-expanded', String(open));
-        if (open) {
-            content.style.maxHeight = `${content.scrollHeight}px`;
-        } else {
-            content.style.maxHeight = '0px';
-        }
-    };
-
-    serviceCards.forEach((card) => {
-        const details = card.querySelector<HTMLDetailsElement>('details');
-        const summary = card.querySelector<HTMLElement>('summary');
-        const content = card.querySelector<HTMLElement>('.service-card__content');
-        if (!details || !summary || !content) return;
-
-        summary.setAttribute('aria-expanded', 'false');
-        setServiceState(card, false);
-
-        card.addEventListener('click', (event) => {
-            if ((event.target as HTMLElement).closest('a')) return;
-            event.preventDefault();
-            setServiceState(card, !details.open);
-        });
-
-        content.addEventListener('transitionend', (event) => {
-            if (event.propertyName === 'max-height' && !card.classList.contains('is-open')) {
-                details.open = false;
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            if (details.open) setServiceState(card, true);
-        });
-    });
-</script>

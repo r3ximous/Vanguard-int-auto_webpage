@@ -74,10 +74,11 @@ const localBusinessJson = JSON.stringify(localBusinessSchema).replace(/</g, '\\u
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to content</a>
+		<div class="site-background" aria-hidden="true"></div>
 		<slot />
 		<script is:inline>
 			const revealTargets = document.querySelectorAll(
-				'.trust-grid, .section-intro, .services-grid, .route, .gallery-grid, .location-panel, .contact-grid, .contact-meta',
+				'.trust-grid, .section-intro, .services-grid, .route, .gallery-grid, .contact-grid, .contact-meta',
 			);
 			const revealObserver = new IntersectionObserver(
 				(entries, observer) => {

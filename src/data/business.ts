@@ -101,7 +101,7 @@ export const services = [
 ] as const satisfies readonly Service[];
 
 export const temporaryHeroImage = {
-	src: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85',
-	alt: 'Dark sports car photographed on an open road',
-	source: 'Unsplash, temporary licensed stock image',
+	src: '/vanguard-background.jpg',
+	alt: 'Dark car photographed in a workshop setting',
+	source: 'Supplied Vanguard background reference',
 } as const;
